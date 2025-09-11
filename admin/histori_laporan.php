@@ -43,7 +43,7 @@ $total_keseluruhan = $total_cash + $total_transfer;
     <div class="card-body">
         <form method="get" class="row">
             <div class="col-md-4 mb-3">
-                <label class="form-label">Bulan</label>
+                <label class="form-label sm">Bulan</label>
                 <select name="bulan" class="form-select">
                     <?php
                     $nama_bulan = [
@@ -59,7 +59,7 @@ $total_keseluruhan = $total_cash + $total_transfer;
                 </select>
             </div>
             <div class="col-md-4 mb-3">
-                <label class="form-label">Tahun</label>
+                <label class="form-label sm">Tahun</label>
                 <select name="tahun" class="form-select">
                     <?php
                     $tahun_sekarang = date('Y');
@@ -71,8 +71,8 @@ $total_keseluruhan = $total_cash + $total_transfer;
                 </select>
             </div>
             <div class="col-md-4 d-flex align-items-end mb-3">
-                <button type="submit" class="btn btn-primary">Filter</button>
-                <a href="histori_laporan.php" class="btn btn-secondary ms-2">Reset</a>
+                <button type="submit" class="btn btn-sm btn-primary">Filter</button>
+                <a href="histori_laporan.php" class="btn btn-sm btn-secondary ms-2">Reset</a>
             </div>
         </form>
     </div>

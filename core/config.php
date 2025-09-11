@@ -1,6 +1,6 @@
 <?php
 session_start();
-define('BASE_URL', 'http://localhost:8081/Arisan/Prod/');
+define('BASE_URL', 'http://localhost:8081');
 
 // Fungsi helper dasar
 function is_logged_in() {

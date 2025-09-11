@@ -26,6 +26,13 @@ $queries = [
         tanggal DATETIME NOT NULL,
         jumlah DECIMAL(10,2) NOT NULL,
         FOREIGN KEY (peserta_id) REFERENCES peserta(id)
+    )",
+
+    "CREATE TABLE IF NOT EXISTS admin (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(50) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL,
+        nama VARCHAR(100) NOT NULL
     )"
 ];
 
@@ -37,6 +44,28 @@ foreach ($queries as $query) {
     }
 }
 
-// Tambah admin default (username: admin, password: admin123)
-// Catatan: Ini hanya untuk demo, di production gunakan password hashing
-echo "Setup selesai. <a href='login.php'>Login</a>";
+// Tambah admin default jika belum ada
+$username = 'admin';
+$password = password_hash('admin1234', PASSWORD_DEFAULT); // gunakan hash untuk keamanan
+$nama = 'Admin';
+
+$stmt = $conn->prepare("SELECT id FROM admin WHERE username = ?");
+$stmt->bind_param("s", $username);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows === 0) {
+    $stmt_insert = $conn->prepare("INSERT INTO admin (username, password, nama) VALUES (?, ?, ?)");
+    $stmt_insert->bind_param("sss", $username, $password, $nama);
+    if ($stmt_insert->execute()) {
+        echo "Admin default berhasil dibuat.<br>";
+    } else {
+        echo "Gagal membuat admin default: " . $conn->error . "<br>";
+    }
+    $stmt_insert->close();
+} else {
+    echo "Admin default sudah ada.<br>";
+}
+$stmt->close();
+
+// Setup selesai. <a href='login.php'>Login</a>

@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Arisan</title>
+    <title>Arisan Billman</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
         .main-container {
             min-height: calc(100vh - 120px);
         }
+
+        .form-label.sm {
+            display: flex;
+            align-items: center;
+            /* biar teks rata tengah */
+            height: calc(1.5em + .5rem + 2px);
+            /* tinggi sama kayak form-control-sm */
+        }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="index.php">Sistem Arisan</a>
+            <a class="navbar-brand" href="index.php">Arisan Billman</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>

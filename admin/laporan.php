@@ -69,8 +69,8 @@ if (isset($pesan)) {
                         <p>Peserta sudah setor hari ini dengan jumlah Rp '.number_format($_SESSION['peserta_duplikat']['jumlah'], 0, ',', '.').'. Apakah ingin mengubah data?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" onclick="hideModal()">Batal</button>
-                        <a href="update_laporan.php?id='.$_SESSION['peserta_duplikat']['id'].'" class="btn btn-primary">Ya, Ubah Data</a>
+                        <button type="button" class="btn btn-sm btn-secondary" onclick="hideModal()">Batal</button>
+                        <a href="update_laporan.php?id='.$_SESSION['peserta_duplikat']['id'].'" class="btn btn-sm btn-primary">Ya, Ubah Data</a>
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@ $total_bulan_ini = $result_total->fetch_assoc()['total'] ?? 0;
             <div class="card-body">
                 <form method="post" id="formSetoran">
                     <div class="mb-3">
-                        <label class="form-label">Peserta</label>
+                        <label class="form-label sm">Peserta</label>
                         <select name="peserta_id" class="form-select" required <?= $sudah_ada_pemenang ? 'disabled' : '' ?>>
                             <option value="">Pilih Peserta</option>
                             <?php while ($row = $peserta->fetch_assoc()): ?>
@@ -127,7 +127,7 @@ $total_bulan_ini = $result_total->fetch_assoc()['total'] ?? 0;
                     </div>
                     
                     <div class="mb-3">
-                        <label class="form-label">Jenis Setoran</label>
+                        <label class="form-label sm">Jenis Setoran</label>
                         <select name="jenis_setor" class="form-select" id="jenisSetor" required <?= $sudah_ada_pemenang ? 'disabled' : '' ?>>
                             <option value="cash">Cash</option>
                             <option value="transfer">Transfer</option>
@@ -136,17 +136,17 @@ $total_bulan_ini = $result_total->fetch_assoc()['total'] ?? 0;
                     </div>
                     
                     <div class="mb-3">
-                        <label class="form-label">Jumlah (Rp)</label>
-                        <input type="text" name="jumlah" id="inputJumlah" class="form-control" placeholder="100000" required
+                        <label class="form-label sm">Jumlah (Rp)</label>
+                        <input type="text" name="jumlah" id="inputJumlah" class="form-control form-control-sm" placeholder="100000" required
                                oninput="formatRupiah(this)" <?= $sudah_ada_pemenang ? 'disabled' : '' ?>>
                     </div>
                     
                     <div class="mb-3">
                         <label class="form-label">Keterangan</label>
-                        <textarea name="keterangan" class="form-control" rows="2" <?= $sudah_ada_pemenang ? 'disabled' : '' ?>></textarea>
+                        <textarea name="keterangan" class="form-control form-control-sm" rows="2" <?= $sudah_ada_pemenang ? 'disabled' : '' ?>></textarea>
                     </div>
                     
-                    <button type="submit" name="simpan" class="btn btn-primary" <?= $sudah_ada_pemenang ? 'disabled' : '' ?>>Simpan Laporan</button>
+                    <button type="submit" name="simpan" class="btn btn-sm btn-primary" <?= $sudah_ada_pemenang ? 'disabled' : '' ?>>Simpan Laporan</button>
                 </form>
             </div>
         </div>
@@ -185,7 +185,7 @@ $total_bulan_ini = $result_total->fetch_assoc()['total'] ?? 0;
                                                 data-id="<?= $row['id'] ?>"
                                                 data-jumlah="<?= $row['jumlah'] ?>"
                                                 <?= $sudah_ada_pemenang ? 'disabled' : '' ?>>
-                                            <i class="bi bi-pencil"></i> Edit
+                                            <i class="bi bi-pencil"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -214,7 +214,7 @@ $total_bulan_ini = $result_total->fetch_assoc()['total'] ?? 0;
                     <input type="hidden" name="id" id="editId">
                     <div class="mb-3">
                         <label class="form-label">Jumlah Baru (Rp)</label>
-                        <input type="text" name="jumlah" id="editJumlah" class="form-control" required
+                        <input type="text" name="jumlah" id="editJumlah" class="form-control form-control-sm" required
                                oninput="formatRupiah(this)" <?= $sudah_ada_pemenang ? 'disabled' : '' ?>>
                     </div>
                 </div>
