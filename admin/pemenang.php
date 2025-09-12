@@ -202,7 +202,7 @@ $sudah_ada_pemenang_bulan_ini = $result_bulan_ini->fetch_assoc()['total'] > 0;
 
                             let idx = 0;
                             const duration = 10000; // durasi animasi dalam ms (10 detik)
-                            const intervalMs = 100; // interval antar nama (0.1 detik)
+                            const intervalMs = 70; // interval antar nama (0.07 detik)
                             const startTime = Date.now();
 
                             let animInterval = setInterval(() => {
@@ -231,18 +231,17 @@ $sudah_ada_pemenang_bulan_ini = $result_bulan_ini->fetch_assoc()['total'] > 0;
 
                                 // Tampilkan nama peserta satu per satu, looping array
                                 let nama = shuffledPeserta[idx % shuffledPeserta.length];
-                                let sensorNama = nama;
-                                if (nama.length > 4) {
-                                    let start = Math.floor(nama.length / 2) - 1;
-                                    let sensor = '*'.repeat(2);
-                                    sensorNama = nama.substring(0, start) + sensor + nama.substring(start + 2);
-                                } else if (nama.length > 2) {
-                                    sensorNama = nama[0] + '*' + nama.substring(2);
+                                let sensorNama = '';
+                                let step = 3; // bisa diganti 2 atau 3 sesuai keinginan
+                                for (let i = 0; i < nama.length; i += step) {
+                                    sensorNama += nama[i];
+                                    if (i + 1 < nama.length) sensorNama += '*';
+                                    if (step === 3 && i + 2 < nama.length) sensorNama += '^';
                                 }
                                 animation.textContent = sensorNama;
                                 winnerName.textContent = '';
                                 idx++;
-                            }, intervalMs);
+                            }, intervalMs); // Tampilkan nama tiap 0.1 detik
                         });
                     </script>
                 <?php elseif (!$sudah_ada_pemenang_bulan_ini): ?>
@@ -523,11 +522,11 @@ $sudah_ada_pemenang_bulan_ini = $result_bulan_ini->fetch_assoc()['total'] > 0;
                     <form method="post" action="simpan_pemenang.php" class="d-inline">
                         <input type="hidden" name="nama" id="inputWinnerName">
                         <input type="hidden" name="jumlah" id="inputWinnerAmount">
-                        <button type="submit" name="aksi" value="terima" class="btn btn-success btn-lg">
+                        <button type="submit" name="aksi" value="terima" class="btn btn-success btn-sm">
                             <i class="bi bi-check-circle"></i> Terima
                         </button>
                     </form>
-                    <button type="button" id="rejectButton" class="btn btn-danger btn-lg">
+                    <button type="button" id="rejectButton" class="btn btn-danger btn-sm">
                         <i class="bi bi-x-circle"></i> Tolak
                     </button>
                 </div>
