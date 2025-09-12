@@ -202,7 +202,7 @@ $sudah_ada_pemenang_bulan_ini = $result_bulan_ini->fetch_assoc()['total'] > 0;
 
                             let idx = 0;
                             const duration = 10000; // durasi animasi dalam ms (10 detik)
-                            const intervalMs = 70; // interval antar nama (0.07 detik)
+                            const intervalMs = 100; // interval antar nama (0.1 detik)
                             const startTime = Date.now();
 
                             let animInterval = setInterval(() => {
@@ -232,16 +232,16 @@ $sudah_ada_pemenang_bulan_ini = $result_bulan_ini->fetch_assoc()['total'] > 0;
                                 // Tampilkan nama peserta satu per satu, looping array
                                 let nama = shuffledPeserta[idx % shuffledPeserta.length];
                                 let sensorNama = '';
-                                let step = 3; // bisa diganti 2 atau 3 sesuai keinginan
+                                let step = 2; // bisa diganti 2 atau 3 sesuai keinginan
                                 for (let i = 0; i < nama.length; i += step) {
                                     sensorNama += nama[i];
                                     if (i + 1 < nama.length) sensorNama += '*';
-                                    if (step === 3 && i + 2 < nama.length) sensorNama += '^';
+                                    if (step === 3 && i + 2 < nama.length) sensorNama += '*';
                                 }
                                 animation.textContent = sensorNama;
                                 winnerName.textContent = '';
                                 idx++;
-                            }, intervalMs); // Tampilkan nama tiap 0.1 detik
+                            }, intervalMs);
                         });
                     </script>
                 <?php elseif (!$sudah_ada_pemenang_bulan_ini): ?>
@@ -296,7 +296,7 @@ $sudah_ada_pemenang_bulan_ini = $result_bulan_ini->fetch_assoc()['total'] > 0;
 
                             let idx = 0;
                             const duration = 10000; // durasi animasi dalam ms (10 detik)
-                            const intervalMs = 100; // interval antar nama (0.1 detik)
+                            const intervalMs = 70; // interval antar nama (0.1 detik)
                             const startTime = Date.now();
 
                             let animInterval = setInterval(() => {
@@ -361,13 +361,12 @@ $sudah_ada_pemenang_bulan_ini = $result_bulan_ini->fetch_assoc()['total'] > 0;
 
                                 // Tampilkan nama peserta satu per satu, looping array
                                 let nama = shuffledPeserta[idx % shuffledPeserta.length];
-                                let sensorNama = nama;
-                                if (nama.length > 4) {
-                                    let start = Math.floor(nama.length / 2) - 1;
-                                    let sensor = '*'.repeat(2);
-                                    sensorNama = nama.substring(0, start) + sensor + nama.substring(start + 2);
-                                } else if (nama.length > 2) {
-                                    sensorNama = nama[0] + '*' + nama.substring(2);
+                                let sensorNama = '';
+                                let step = 3; // bisa diganti 2 atau 3 sesuai keinginan
+                                for (let i = 0; i < nama.length; i += step) {
+                                    sensorNama += nama[i];
+                                    if (i + 1 < nama.length) sensorNama += '*';
+                                    if (step === 3 && i + 2 < nama.length) sensorNama += '^';
                                 }
                                 animation.textContent = sensorNama;
                                 winnerName.textContent = '';
