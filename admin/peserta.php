@@ -144,7 +144,7 @@ $peserta_query = $conn->query("SELECT * FROM peserta WHERE aktif = $status ORDER
                                     <td><?= $no++ ?></td>
                                     <td><?= htmlspecialchars($row['nama']) ?></td>
                                     <td>
-                                        <button class="btn btn-sm <?= $status ? 'btn-danger' : 'btn-success' ?> toggle-peserta"
+                                        <button class="btn btn-sm <?= $status ? 'btn-secondary' : 'btn-success' ?> toggle-peserta"
                                             data-id="<?= $row['id'] ?>" data-status="<?= $status ?>"
                                             data-nama="<?= htmlspecialchars($row['nama']) ?>">
                                             <i class="bi <?= $status ? 'bi-person-x' : 'bi-person-check' ?>"></i>
