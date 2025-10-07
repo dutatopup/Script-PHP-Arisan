@@ -425,19 +425,22 @@ $sudah_ada_pemenang_bulan_ini = $result_bulan_ini->fetch_assoc()['total'] > 0;
                         <table class="table table-sm">
                             <thead>
                                 <tr>
+                                    <th>No</th>
                                     <th>Tanggal</th>
                                     <th>Pemenang</th>
                                     <th>Mendapatkan</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php while ($row = $histori->fetch_assoc()): ?>
+                                <?php $no = 1; // Inisialisasi nomor urut
+                                while ($row = $histori->fetch_assoc()): ?>
                                     <?php
                                     // setlocale(LC_TIME, 'id_ID', 'id', 'id_ID.UTF-8');
                                     $tanggal = strtotime($row['tanggal']);
                                     $format_tanggal = strftime('%A, %d %B %Y', $tanggal);
                                     ?>
                                     <tr>
+                                        <td><?= $no++ ?></td>
                                         <td><?= $format_tanggal ?></td>
                                         <td><?= htmlspecialchars($row['nama']) ?></td>
                                         <td>Rp <?= number_format($row['jumlah'], 0, ',', '.') ?></td>

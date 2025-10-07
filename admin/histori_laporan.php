@@ -13,7 +13,7 @@ $query = "SELECT l.*, p.nama
           FROM laporan l
           JOIN peserta p ON l.peserta_id = p.id
           WHERE MONTH(l.tanggal_input) = ? AND YEAR(l.tanggal_input) = ?
-          ORDER BY l.tanggal_input DESC";
+          ORDER BY p.nama ASC, l.tanggal_input DESC"; // Urutkan berdasarkan nama ASC
 
 $stmt = $conn->prepare($query);
 $stmt->bind_param("ii", $bulan, $tahun);
@@ -91,6 +91,7 @@ $total_keseluruhan = $total_cash + $total_transfer;
                 <table class="table table-striped table-hover">
                     <thead class="table-dark">
                         <tr>
+                            <th>No</th>
                             <th>Tanggal</th>
                             <th>Peserta</th>
                             <th>Jenis Setoran</th>
@@ -99,12 +100,15 @@ $total_keseluruhan = $total_cash + $total_transfer;
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($laporan as $item): ?>
+                        <?php 
+                        $no = 1; // Inisialisasi nomor urut
+                        foreach ($laporan as $item): ?>
                         <tr>
+                            <td><?= $no++ ?></td>
                             <td><?= date('d/m/Y', strtotime($item['tanggal_input'])) ?></td>
                             <td><?= htmlspecialchars($item['nama']) ?></td>
                             <td>
-                                <span class="badge bg-<?= $item['jenis_setor'] === 'cash' ? 'success' : ($item['jenis_setor'] === 'transfer' ? 'primary' : 'warning') ?>">
+                                <span class="badge bg-<?= $item['jenis_setor'] === 'cash' ? 'success' : ($item['jenis_setor'] === 'transfer' ? 'primary' : 'danger') ?>">
                                     <?= ucfirst($item['jenis_setor']) ?>
                                 </span>
                             </td>
@@ -113,14 +117,14 @@ $total_keseluruhan = $total_cash + $total_transfer;
                         </tr>
                         <?php endforeach; ?>
                         <tr class="table-active">
-                            <td colspan="3"><strong>Total</strong></td>
+                            <td colspan="4"><strong>Total</strong></td>
                             <td><strong>Rp <?= number_format($total_keseluruhan, 0, ',', '.') ?></strong></td>
                             <td></td>
                         </tr>
-                        <tr class="table-secondary">
-                            <td colspan="2"></td>
-                            <td>Cash: Rp <?= number_format($total_cash, 0, ',', '.') ?></td>
-                            <td>Transfer: Rp <?= number_format($total_transfer, 0, ',', '.') ?></td>
+                        <tr class="table-info">
+                            <td colspan="3"></td>
+                            <td>💵 <span class="badge bg-success">CASH</span> Rp <?= number_format($total_cash, 0, ',', '.') ?></td>
+                            <td>🏧 <span class="badge bg-primary">TRANSFER</span> Rp <?= number_format($total_transfer, 0, ',', '.') ?></td>
                             <td></td>
                         </tr>
                     </tbody>
