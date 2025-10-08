@@ -138,7 +138,7 @@ $sudah_ada_pemenang_bulan_ini = $result_bulan_ini->fetch_assoc()['total'] > 0;
                         <p class="mb-1"><strong>Rp <?= number_format($row['jumlah'], 0, ',', '.') ?></strong></p>
                     </div>
                 <?php else: ?>
-                    <div class="alert alert-info">Belum ada pemenang bulan lalu.</div>
+                    <div class="alert alert-info"><i class="bi bi-info-circle"></i> Belum ada pemenang bulan lalu.</div>
                 <?php endif; ?>
             </div>
         </div>
@@ -450,7 +450,7 @@ $sudah_ada_pemenang_bulan_ini = $result_bulan_ini->fetch_assoc()['total'] > 0;
                         </table>
                     </div>
                 <?php else: ?>
-                    <div class="alert alert-info">Belum ada histori pemenang</div>
+                    <div class="alert alert-info"><i class="bi bi-info-circle"></i> Belum ada histori pemenang</div>
                 <?php endif; ?>
             </div>
         </div>

@@ -13,13 +13,24 @@ $query = "SELECT l.*, p.nama
           FROM laporan l
           JOIN peserta p ON l.peserta_id = p.id
           WHERE MONTH(l.tanggal_input) = ? AND YEAR(l.tanggal_input) = ?
-          ORDER BY p.nama ASC, l.tanggal_input DESC"; // Urutkan berdasarkan nama ASC
+          ORDER BY p.nama ASC, l.tanggal_input DESC";
 
 $stmt = $conn->prepare($query);
 $stmt->bind_param("ii", $bulan, $tahun);
 $stmt->execute();
 $result = $stmt->get_result();
 $laporan = $result->fetch_all(MYSQLI_ASSOC);
+
+// Query untuk mendapatkan data tempat berdasarkan bulan dan tahun
+$query_tempat = "SELECT * FROM tempat 
+                 WHERE bulan = ? AND tahun = ? 
+                 ORDER BY nama_tempat ASC";
+
+$stmt_tempat = $conn->prepare($query_tempat);
+$stmt_tempat->bind_param("ii", $bulan, $tahun);
+$stmt_tempat->execute();
+$result_tempat = $stmt_tempat->get_result();
+$tempat_data = $result_tempat->fetch_all(MYSQLI_ASSOC);
 
 // Hitung total setoran
 $total_cash = 0;
@@ -32,6 +43,12 @@ foreach ($laporan as $item) {
     }
 }
 $total_keseluruhan = $total_cash + $total_transfer;
+
+$nama_bulan = [
+    1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
+    5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
+    9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
+];
 ?>
 
 <h2 class="mb-4">Histori Laporan Arisan</h2>
@@ -46,11 +63,6 @@ $total_keseluruhan = $total_cash + $total_transfer;
                 <label class="form-label sm">Bulan</label>
                 <select name="bulan" class="form-select">
                     <?php
-                    $nama_bulan = [
-                        1 => 'Januari', 2 => 'Februari', 3 => 'Maret', 4 => 'April',
-                        5 => 'Mei', 6 => 'Juni', 7 => 'Juli', 8 => 'Agustus',
-                        9 => 'September', 10 => 'Oktober', 11 => 'November', 12 => 'Desember'
-                    ];
                     foreach ($nama_bulan as $key => $value) {
                         $selected = ($key == $bulan) ? 'selected' : '';
                         echo "<option value='$key' $selected>$value</option>";
@@ -78,6 +90,52 @@ $total_keseluruhan = $total_cash + $total_transfer;
     </div>
 </div>
 
+<!-- Tabel Data Tempat -->
+<div class="card mb-4">
+    <div class="card-header">
+        <h4>Data Tempat Bulan <?= $nama_bulan[$bulan] ?> <?= $tahun ?></h4>
+    </div>
+    <div class="card-body">
+        <?php if (!empty($tempat_data)): ?>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover">
+                    <thead class="table-info">
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Tempat</th>
+                            <!-- <th>Tanggal Dibuat</th>
+                            <th>Terakhir Diupdate</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php $no_tempat = 1; ?>
+                        <?php foreach ($tempat_data as $tempat): ?>
+                            <tr>
+                                <td><?= $no_tempat++ ?></td>
+                                <td><?= htmlspecialchars($tempat['nama_tempat']) ?></td>
+                                <!-- <td><?= date('d/m/Y H:i', strtotime($tempat['created_at'])) ?></td>
+                                <td>
+                                    <?php if ($tempat['updated_at'] != $tempat['created_at']): ?>
+                                        <?= date('d/m/Y H:i', strtotime($tempat['updated_at'])) ?>
+                                    <?php else: ?>
+                                        -
+                                    <?php endif; ?>
+                                </td> -->
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        <?php else: ?>
+            <div class="alert alert-info">
+                <i class="bi bi-info-circle"></i> 
+                Tidak ada data tempat untuk bulan <?= $nama_bulan[$bulan] ?> <?= $tahun ?>
+            </div>
+        <?php endif; ?>
+    </div>
+</div>
+
+<!-- Tabel Laporan Arisan -->
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h4>Laporan Bulan <?= $nama_bulan[$bulan] ?> <?= $tahun ?></h4>
@@ -101,7 +159,7 @@ $total_keseluruhan = $total_cash + $total_transfer;
                     </thead>
                     <tbody>
                         <?php 
-                        $no = 1; // Inisialisasi nomor urut
+                        $no = 1;
                         foreach ($laporan as $item): ?>
                         <tr>
                             <td><?= $no++ ?></td>
@@ -131,9 +189,13 @@ $total_keseluruhan = $total_cash + $total_transfer;
                 </table>
             </div>
         <?php else: ?>
-            <div class="alert alert-info">Tidak ada laporan untuk bulan <?= $nama_bulan[$bulan] ?> <?= $tahun ?></div>
+            <div class="alert alert-info"><i class="bi bi-info-circle"></i> Tidak ada laporan untuk bulan <?= $nama_bulan[$bulan] ?> <?= $tahun ?></div>
         <?php endif; ?>
     </div>
 </div>
 
-<?php include '../core/footer.php'; ?>
+<?php 
+$stmt->close();
+$stmt_tempat->close();
+include '../core/footer.php'; 
+?>

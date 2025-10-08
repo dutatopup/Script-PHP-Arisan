@@ -33,6 +33,15 @@ $queries = [
         username VARCHAR(50) NOT NULL UNIQUE,
         password VARCHAR(255) NOT NULL,
         nama VARCHAR(100) NOT NULL
+    )",
+
+    "CREATE TABLE tempat (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nama_tempat VARCHAR(255) NOT NULL,
+    bulan INT NOT NULL,
+    tahun INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )"
 ];
 
